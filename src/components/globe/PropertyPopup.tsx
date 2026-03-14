@@ -7,21 +7,16 @@ import { latLngToVector3, GLOBE_RADIUS } from "./globe-utils";
 const PROPERTY = {
   name: "The Tait",
   tagline: "Special corner garden unit",
-  floor: "Ground floor",
+  floor: "32nd",
   beds: 2,
-  baths: 2,
-  size: "95 sqm",
-  price: "Contact for pricing",
-  features: ["Corner unit", "Private garden", "Pool access", "Fully furnished"],
+  size: "92.5 sqm",
   images: [
     { gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)", label: "Living Area" },
     { gradient: "linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #16213e 100%)", label: "Bedroom" },
-    { gradient: "linear-gradient(135deg, #16213e 0%, #0f3460 50%, #1a1a2e 100%)", label: "Garden View" },
-    { gradient: "linear-gradient(135deg, #1a1a2e 0%, #0f3460 50%, #16213e 100%)", label: "Kitchen" },
+    { gradient: "linear-gradient(135deg, #16213e 0%, #0f3460 50%, #1a1a2e 100%)", label: "View" },
   ],
 };
 
-// Bangkok coordinates
 const BKK_LAT = 13.7563;
 const BKK_LNG = 100.5018;
 
@@ -39,31 +34,31 @@ export default function PropertyPopup() {
 
   return (
     <Html
-      position={[pos.x + 0.08, pos.y + 0.06, pos.z]}
-      distanceFactor={2.2}
+      position={[pos.x + 0.06, pos.y + 0.05, pos.z]}
+      distanceFactor={2.8}
       style={{ pointerEvents: "auto" }}
       zIndexRange={[100, 0]}
     >
       <div
         style={{
-          width: "280px",
-          background: "rgba(8, 8, 16, 0.85)",
+          width: "200px",
+          background: "rgba(8, 8, 16, 0.88)",
           backdropFilter: "blur(40px) saturate(1.8)",
           WebkitBackdropFilter: "blur(40px) saturate(1.8)",
           border: "1px solid rgba(255, 255, 255, 0.1)",
-          borderRadius: "16px",
+          borderRadius: "12px",
           overflow: "hidden",
           fontFamily: "'Inter', -apple-system, sans-serif",
           color: "#f5f5f7",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.6), 0 0 80px rgba(0, 113, 227, 0.08)",
+          boxShadow: "0 6px 24px rgba(0, 0, 0, 0.5)",
           transform: "translateX(-50%)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header badge */}
+        {/* Header */}
         <div
           style={{
-            padding: "8px 16px",
+            padding: "5px 10px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -72,7 +67,7 @@ export default function PropertyPopup() {
         >
           <span
             style={{
-              fontSize: "9px",
+              fontSize: "7px",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
               color: "rgba(255, 255, 255, 0.4)",
@@ -88,7 +83,7 @@ export default function PropertyPopup() {
               border: "none",
               color: "rgba(255, 255, 255, 0.3)",
               cursor: "pointer",
-              fontSize: "14px",
+              fontSize: "11px",
               padding: "0 2px",
               lineHeight: 1,
             }}
@@ -98,7 +93,7 @@ export default function PropertyPopup() {
         </div>
 
         {/* Image carousel */}
-        <div style={{ position: "relative", height: "150px", overflow: "hidden" }}>
+        <div style={{ position: "relative", height: "100px", overflow: "hidden" }}>
           <div
             style={{
               width: "100%",
@@ -112,8 +107,8 @@ export default function PropertyPopup() {
           >
             <span
               style={{
-                fontSize: "11px",
-                color: "rgba(255, 255, 255, 0.25)",
+                fontSize: "9px",
+                color: "rgba(255, 255, 255, 0.2)",
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
                 fontWeight: 300,
@@ -123,26 +118,24 @@ export default function PropertyPopup() {
             </span>
           </div>
 
-          {/* Nav arrows */}
           <button
             onClick={prevImage}
             style={{
               position: "absolute",
-              left: "8px",
+              left: "5px",
               top: "50%",
               transform: "translateY(-50%)",
-              width: "28px",
-              height: "28px",
+              width: "22px",
+              height: "22px",
               borderRadius: "50%",
               background: "rgba(0, 0, 0, 0.5)",
-              backdropFilter: "blur(8px)",
               border: "1px solid rgba(255, 255, 255, 0.15)",
               color: "#fff",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "12px",
+              fontSize: "10px",
             }}
           >
             ‹
@@ -151,35 +144,33 @@ export default function PropertyPopup() {
             onClick={nextImage}
             style={{
               position: "absolute",
-              right: "8px",
+              right: "5px",
               top: "50%",
               transform: "translateY(-50%)",
-              width: "28px",
-              height: "28px",
+              width: "22px",
+              height: "22px",
               borderRadius: "50%",
               background: "rgba(0, 0, 0, 0.5)",
-              backdropFilter: "blur(8px)",
               border: "1px solid rgba(255, 255, 255, 0.15)",
               color: "#fff",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "12px",
+              fontSize: "10px",
             }}
           >
             ›
           </button>
 
-          {/* Dots indicator */}
           <div
             style={{
               position: "absolute",
-              bottom: "8px",
+              bottom: "5px",
               left: "50%",
               transform: "translateX(-50%)",
               display: "flex",
-              gap: "5px",
+              gap: "4px",
             }}
           >
             {PROPERTY.images.map((_, i) => (
@@ -187,9 +178,9 @@ export default function PropertyPopup() {
                 key={i}
                 onClick={() => setCurrentImage(i)}
                 style={{
-                  width: i === currentImage ? "14px" : "5px",
-                  height: "5px",
-                  borderRadius: "3px",
+                  width: i === currentImage ? "10px" : "4px",
+                  height: "4px",
+                  borderRadius: "2px",
                   background: i === currentImage ? "#fff" : "rgba(255, 255, 255, 0.35)",
                   border: "none",
                   cursor: "pointer",
@@ -202,28 +193,21 @@ export default function PropertyPopup() {
         </div>
 
         {/* Property info */}
-        <div style={{ padding: "14px 16px" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "8px", marginBottom: "4px" }}>
-            <h3
-              style={{
-                fontSize: "15px",
-                fontWeight: 500,
-                margin: 0,
-                letterSpacing: "-0.01em",
-              }}
-            >
+        <div style={{ padding: "10px 12px" }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "2px" }}>
+            <h3 style={{ fontSize: "13px", fontWeight: 500, margin: 0 }}>
               {PROPERTY.name}
             </h3>
-            <span style={{ fontSize: "10px", color: "rgba(255, 255, 255, 0.3)" }}>
+            <span style={{ fontSize: "9px", color: "rgba(255, 255, 255, 0.3)" }}>
               Bangkok
             </span>
           </div>
 
           <p
             style={{
-              fontSize: "11px",
-              color: "rgba(255, 255, 255, 0.5)",
-              margin: "0 0 12px 0",
+              fontSize: "9px",
+              color: "rgba(255, 255, 255, 0.45)",
+              margin: "0 0 8px 0",
               fontWeight: 300,
               fontStyle: "italic",
             }}
@@ -235,57 +219,34 @@ export default function PropertyPopup() {
           <div
             style={{
               display: "flex",
-              gap: "12px",
-              marginBottom: "12px",
-              paddingBottom: "12px",
-              borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
+              gap: "10px",
+              marginBottom: "10px",
+              fontSize: "9px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.35)" }}>Floor</span>
-              <span style={{ fontSize: "11px", fontWeight: 400 }}>{PROPERTY.floor}</span>
+            <div>
+              <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>Floor </span>
+              <span style={{ fontWeight: 400 }}>{PROPERTY.floor}</span>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.35)" }}>Beds</span>
-              <span style={{ fontSize: "11px", fontWeight: 400 }}>{PROPERTY.beds}</span>
+            <div>
+              <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>Beds </span>
+              <span style={{ fontWeight: 400 }}>{PROPERTY.beds}</span>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <span style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.35)" }}>Size</span>
-              <span style={{ fontSize: "11px", fontWeight: 400 }}>{PROPERTY.size}</span>
+            <div>
+              <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>Size </span>
+              <span style={{ fontWeight: 400 }}>{PROPERTY.size}</span>
             </div>
           </div>
 
-          {/* Features */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "4px", marginBottom: "14px" }}>
-            {PROPERTY.features.map((f) => (
-              <span
-                key={f}
-                style={{
-                  fontSize: "9px",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "rgba(255, 255, 255, 0.4)",
-                  background: "rgba(255, 255, 255, 0.05)",
-                  padding: "3px 8px",
-                  borderRadius: "4px",
-                  fontWeight: 300,
-                }}
-              >
-                {f}
-              </span>
-            ))}
-          </div>
-
-          {/* CTA */}
           <button
             style={{
               width: "100%",
-              padding: "10px",
-              borderRadius: "10px",
+              padding: "7px",
+              borderRadius: "8px",
               background: "#fff",
               color: "#000",
               border: "none",
-              fontSize: "12px",
+              fontSize: "10px",
               fontWeight: 500,
               cursor: "pointer",
               letterSpacing: "0.02em",

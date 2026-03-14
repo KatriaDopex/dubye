@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
 import { GLOBE_RADIUS } from "./globe-utils";
 import { feature } from "topojson-client";
 import { geoEquirectangular, geoPath } from "d3-geo";
@@ -111,11 +110,9 @@ const rimFrag = `
 
 function EarthSphere() {
   const matRef = useRef<THREE.MeshBasicMaterial>(null);
-  const loadedRef = useRef(false);
 
   useEffect(() => {
-    if (loadedRef.current) return;
-    loadedRef.current = true;
+    let cancelled = false;
 
     Promise.all([
       fetch("/land-110m.json").then((r) => {
@@ -128,16 +125,19 @@ function EarthSphere() {
       }),
     ])
       .then(([landTopo, countriesTopo]) => {
+        if (cancelled) return;
         const texture = buildTexture(landTopo, countriesTopo);
-        console.log("[Globe] texture ready:", texture.image.width, "x", texture.image.height);
         if (matRef.current) {
           matRef.current.map = texture;
+          matRef.current.color.set("#ffffff");
           matRef.current.needsUpdate = true;
         }
       })
       .catch((err) => {
         console.error("[Globe] Failed to load map data:", err);
       });
+
+    return () => { cancelled = true; };
   }, []);
 
   return (

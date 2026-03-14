@@ -14,7 +14,7 @@ const Globe = dynamic(() => import("@/components/globe/Globe"), {
 
 export default function HeroSection() {
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative h-screen w-full overflow-hidden bg-black">
       <div className="absolute inset-0 z-0">
         <Globe />
       </div>
@@ -38,7 +38,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.8, ease: [0.25, 0.1, 0, 1] }}
-          className="text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight max-w-4xl leading-[1.1]"
+          className="text-white text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight max-w-4xl leading-[1.1]"
         >
           Your next chapter
           <br />
