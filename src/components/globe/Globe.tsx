@@ -175,15 +175,15 @@ export default function Globe() {
       <directionalLight position={[-4, 2, 2]} intensity={0.4} color="#ffffff" />
       <directionalLight position={[0, 1, -5]} intensity={0.6} color="#aabbff" />
 
-      {/* Static dim stars */}
+      {/* Background stars — bright and close */}
       <Stars
-        radius={80}
-        depth={60}
-        count={2000}
-        factor={1.5}
+        radius={20}
+        depth={40}
+        count={3000}
+        factor={4}
         saturation={0}
         fade
-        speed={0.3}
+        speed={0.5}
       />
 
       {/* Shooting stars */}
