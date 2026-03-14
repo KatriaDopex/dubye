@@ -19,7 +19,7 @@ const BKK_LNG = 100.5018;
 export default function PropertyPopup() {
   const [currentImage, setCurrentImage] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
-  const pos = latLngToVector3(BKK_LAT, BKK_LNG, GLOBE_RADIUS * 1.01);
+  const pos = latLngToVector3(BKK_LAT, BKK_LNG, GLOBE_RADIUS * 1.005);
 
   const nextImage = () =>
     setCurrentImage((prev) => (prev + 1) % PROPERTY.images.length);
@@ -30,66 +30,28 @@ export default function PropertyPopup() {
 
   return (
     <Html
-      position={[pos.x + 0.06, pos.y + 0.05, pos.z]}
-      distanceFactor={2.8}
+      position={[pos.x, pos.y + 0.07, pos.z]}
+      distanceFactor={3.2}
       style={{ pointerEvents: "auto" }}
       zIndexRange={[100, 0]}
     >
       <div
         style={{
-          width: "200px",
-          background: "rgba(8, 8, 16, 0.88)",
-          backdropFilter: "blur(40px) saturate(1.8)",
-          WebkitBackdropFilter: "blur(40px) saturate(1.8)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          borderRadius: "12px",
+          width: "160px",
+          background: "rgba(8, 8, 16, 0.30)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          borderRadius: "10px",
           overflow: "hidden",
           fontFamily: "'Inter', -apple-system, sans-serif",
           color: "#f5f5f7",
-          boxShadow: "0 6px 24px rgba(0, 0, 0, 0.5)",
           transform: "translateX(-50%)",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div
-          style={{
-            padding: "5px 10px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.06)",
-          }}
-        >
-          <span
-            style={{
-              fontSize: "7px",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "rgba(255, 255, 255, 0.4)",
-              fontWeight: 300,
-            }}
-          >
-            Curated Property
-          </span>
-          <button
-            onClick={() => setIsVisible(false)}
-            style={{
-              background: "none",
-              border: "none",
-              color: "rgba(255, 255, 255, 0.3)",
-              cursor: "pointer",
-              fontSize: "11px",
-              padding: "0 2px",
-              lineHeight: 1,
-            }}
-          >
-            ×
-          </button>
-        </div>
-
         {/* Image carousel */}
-        <div style={{ position: "relative", height: "120px", overflow: "hidden" }}>
+        <div style={{ position: "relative", height: "85px", overflow: "hidden" }}>
           <img
             src={PROPERTY.images[currentImage]}
             alt="The Tait"
@@ -98,6 +60,7 @@ export default function PropertyPopup() {
               height: "100%",
               objectFit: "cover",
               display: "block",
+              opacity: 0.85,
             }}
           />
 
@@ -105,20 +68,20 @@ export default function PropertyPopup() {
             onClick={prevImage}
             style={{
               position: "absolute",
-              left: "5px",
+              left: "4px",
               top: "50%",
               transform: "translateY(-50%)",
-              width: "22px",
-              height: "22px",
+              width: "18px",
+              height: "18px",
               borderRadius: "50%",
-              background: "rgba(0, 0, 0, 0.5)",
-              border: "1px solid rgba(255, 255, 255, 0.15)",
+              background: "rgba(0, 0, 0, 0.4)",
+              border: "none",
               color: "#fff",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "10px",
+              fontSize: "9px",
             }}
           >
             ‹
@@ -127,20 +90,20 @@ export default function PropertyPopup() {
             onClick={nextImage}
             style={{
               position: "absolute",
-              right: "5px",
+              right: "4px",
               top: "50%",
               transform: "translateY(-50%)",
-              width: "22px",
-              height: "22px",
+              width: "18px",
+              height: "18px",
               borderRadius: "50%",
-              background: "rgba(0, 0, 0, 0.5)",
-              border: "1px solid rgba(255, 255, 255, 0.15)",
+              background: "rgba(0, 0, 0, 0.4)",
+              border: "none",
               color: "#fff",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "10px",
+              fontSize: "9px",
             }}
           >
             ›
@@ -149,90 +112,53 @@ export default function PropertyPopup() {
           <div
             style={{
               position: "absolute",
-              bottom: "5px",
+              bottom: "4px",
               left: "50%",
               transform: "translateX(-50%)",
               display: "flex",
-              gap: "4px",
+              gap: "3px",
             }}
           >
             {PROPERTY.images.map((_, i) => (
-              <button
+              <div
                 key={i}
-                onClick={() => setCurrentImage(i)}
                 style={{
-                  width: i === currentImage ? "10px" : "4px",
-                  height: "4px",
+                  width: i === currentImage ? "8px" : "3px",
+                  height: "3px",
                   borderRadius: "2px",
-                  background: i === currentImage ? "#fff" : "rgba(255, 255, 255, 0.35)",
-                  border: "none",
-                  cursor: "pointer",
+                  background: i === currentImage ? "#fff" : "rgba(255, 255, 255, 0.4)",
                   transition: "all 0.3s ease",
-                  padding: 0,
                 }}
               />
             ))}
           </div>
         </div>
 
-        {/* Property info */}
-        <div style={{ padding: "10px 12px" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "2px" }}>
-            <h3 style={{ fontSize: "13px", fontWeight: 500, margin: 0 }}>
-              {PROPERTY.name}
-            </h3>
-            <span style={{ fontSize: "9px", color: "rgba(255, 255, 255, 0.3)" }}>
-              Bangkok
-            </span>
+        {/* Info */}
+        <div style={{ padding: "7px 9px" }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: "5px", marginBottom: "3px" }}>
+            <span style={{ fontSize: "11px", fontWeight: 500 }}>{PROPERTY.name}</span>
+            <span style={{ fontSize: "7px", color: "rgba(255, 255, 255, 0.3)", letterSpacing: "0.1em", textTransform: "uppercase" }}>BKK</span>
           </div>
 
-          <p
-            style={{
-              fontSize: "9px",
-              color: "rgba(255, 255, 255, 0.45)",
-              margin: "0 0 8px 0",
-              fontWeight: 300,
-              fontStyle: "italic",
-            }}
-          >
-            {PROPERTY.tagline}
-          </p>
-
-          {/* Stats row */}
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              marginBottom: "10px",
-              fontSize: "9px",
-            }}
-          >
-            <div>
-              <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>Floor </span>
-              <span style={{ fontWeight: 400 }}>{PROPERTY.floor}</span>
-            </div>
-            <div>
-              <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>Beds </span>
-              <span style={{ fontWeight: 400 }}>{PROPERTY.beds}</span>
-            </div>
-            <div>
-              <span style={{ color: "rgba(255, 255, 255, 0.3)" }}>Size </span>
-              <span style={{ fontWeight: 400 }}>{PROPERTY.size}</span>
-            </div>
+          <div style={{ display: "flex", gap: "8px", fontSize: "8px", color: "rgba(255, 255, 255, 0.5)", marginBottom: "6px" }}>
+            <span>{PROPERTY.floor}F</span>
+            <span>{PROPERTY.beds} bed</span>
+            <span>{PROPERTY.size}</span>
           </div>
 
           <button
             style={{
               width: "100%",
-              padding: "7px",
-              borderRadius: "8px",
-              background: "#fff",
-              color: "#000",
+              padding: "5px",
+              borderRadius: "6px",
+              background: "rgba(255, 255, 255, 0.12)",
+              color: "rgba(255, 255, 255, 0.8)",
               border: "none",
-              fontSize: "10px",
-              fontWeight: 500,
+              fontSize: "8px",
+              fontWeight: 400,
               cursor: "pointer",
-              letterSpacing: "0.02em",
+              letterSpacing: "0.05em",
             }}
           >
             Inquire
