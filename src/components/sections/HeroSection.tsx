@@ -7,21 +7,21 @@ const Globe = dynamic(() => import("@/components/globe/Globe"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-64 h-64 rounded-full border border-white/[0.06] animate-pulse" />
+      <div className="w-64 h-64 rounded-full border border-black/[0.06] animate-pulse" />
     </div>
   ),
 });
 
 export default function HeroSection() {
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+    <section className="relative h-screen w-full overflow-hidden bg-white">
       <div className="absolute inset-0 z-0">
         <Globe />
       </div>
 
       <div className="absolute inset-0 z-[1] pointer-events-none">
-        <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-black to-transparent" />
-        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/60 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-white to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white/80 to-transparent" />
       </div>
 
       <div className="relative z-[2] h-full flex flex-col items-center justify-center px-6 text-center pointer-events-none">
@@ -29,7 +29,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.5 }}
-          className="text-white/40 text-[11px] tracking-[0.35em] uppercase mb-6 font-light"
+          className="text-black/35 text-[11px] tracking-[0.35em] uppercase mb-6 font-light"
         >
           DUBYE &mdash; Dubai &rarr; Asia relocation
         </motion.p>
@@ -38,18 +38,18 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.8, ease: [0.25, 0.1, 0, 1] }}
-          className="text-white text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight max-w-4xl leading-[1.1]"
+          className="text-[#1d1d1f] text-4xl sm:text-5xl md:text-7xl font-semibold tracking-tight max-w-4xl leading-[1.1]"
         >
           Your next chapter
           <br />
-          <span className="font-light text-white/60">starts in Asia</span>
+          <span className="font-light text-black/40">starts in Asia</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 1.2 }}
-          className="mt-6 text-white/35 text-sm sm:text-base max-w-lg font-light tracking-wide"
+          className="mt-6 text-black/40 text-sm sm:text-base max-w-lg font-light tracking-wide"
         >
           End-to-end relocation from Dubai to Bangkok, Hong Kong, Singapore &amp; Bali.
           Visa, housing, banking — handled.
@@ -63,7 +63,7 @@ export default function HeroSection() {
         >
           <a
             href="#contact"
-            className="px-8 py-3.5 rounded-xl bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors"
+            className="px-8 py-3.5 rounded-xl bg-[#1d1d1f] text-white text-sm font-medium hover:bg-black/80 transition-colors"
           >
             Book a free consultation
           </a>
@@ -79,7 +79,7 @@ export default function HeroSection() {
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-[1px] h-8 bg-gradient-to-b from-transparent via-white/20 to-transparent"
+          className="w-[1px] h-8 bg-gradient-to-b from-transparent via-black/15 to-transparent"
         />
       </motion.div>
     </section>

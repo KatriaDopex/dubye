@@ -28,27 +28,15 @@ function buildTexture(
   canvas.height = H;
   const ctx = canvas.getContext("2d")!;
 
-  // Ocean
-  ctx.fillStyle = "#020208";
+  // Ocean — rich blue
+  const oceanGrad = ctx.createLinearGradient(0, 0, 0, H);
+  oceanGrad.addColorStop(0, "#1a5276");
+  oceanGrad.addColorStop(0.3, "#2471a3");
+  oceanGrad.addColorStop(0.5, "#2e86c1");
+  oceanGrad.addColorStop(0.7, "#2471a3");
+  oceanGrad.addColorStop(1, "#1a5276");
+  ctx.fillStyle = oceanGrad;
   ctx.fillRect(0, 0, W, H);
-
-  // Grid
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.03)";
-  ctx.lineWidth = 0.5;
-  for (let lat = -80; lat <= 80; lat += 20) {
-    const y = ((90 - lat) / 180) * H;
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(W, y);
-    ctx.stroke();
-  }
-  for (let lng = -180; lng <= 180; lng += 30) {
-    const x = ((lng + 180) / 360) * W;
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, H);
-    ctx.stroke();
-  }
 
   const projection = geoEquirectangular()
     .scale(W / (2 * Math.PI))
@@ -56,26 +44,34 @@ function buildTexture(
 
   const path = geoPath(projection, ctx);
 
-  // Land fill
-  ctx.fillStyle = "#162040";
+  // Land fill — natural earth tones
+  ctx.fillStyle = "#5b8c5a";
   for (const f of land.features) {
     ctx.beginPath();
     path(f);
     ctx.fill();
   }
 
-  // Country borders
-  ctx.strokeStyle = "rgba(120, 160, 220, 0.25)";
-  ctx.lineWidth = 0.8;
+  // Subtle inner land shading
+  ctx.fillStyle = "rgba(107, 142, 95, 0.4)";
+  for (const f of land.features) {
+    ctx.beginPath();
+    path(f);
+    ctx.fill();
+  }
+
+  // Country borders — soft grey
+  ctx.strokeStyle = "rgba(80, 80, 80, 0.3)";
+  ctx.lineWidth = 0.6;
   for (const f of countries.features) {
     ctx.beginPath();
     path(f);
     ctx.stroke();
   }
 
-  // Coastlines
-  ctx.strokeStyle = "rgba(180, 210, 255, 0.7)";
-  ctx.lineWidth = 1.8;
+  // Coastlines — subtle darker edge
+  ctx.strokeStyle = "rgba(30, 80, 60, 0.5)";
+  ctx.lineWidth = 1.2;
   for (const f of land.features) {
     ctx.beginPath();
     path(f);
@@ -103,8 +99,8 @@ const rimFrag = `
   varying vec3 vP;
   void main() {
     float rim = 1.0 - max(dot(normalize(-vP), vN), 0.0);
-    rim = pow(rim, 2.5);
-    gl_FragColor = vec4(0.7, 0.8, 1.0, rim * 0.2);
+    rim = pow(rim, 3.0);
+    gl_FragColor = vec4(0.5, 0.7, 1.0, rim * 0.25);
   }
 `;
 
@@ -143,7 +139,7 @@ function EarthSphere() {
   return (
     <mesh>
       <sphereGeometry args={[GLOBE_RADIUS, 64, 64]} />
-      <meshBasicMaterial ref={matRef} color="#050510" />
+      <meshBasicMaterial ref={matRef} color="#2471a3" />
     </mesh>
   );
 }
