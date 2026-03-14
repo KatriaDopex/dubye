@@ -2,7 +2,7 @@
 
 import { Suspense, useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import GlobeMesh from "./GlobeMesh";
 import GlobeArcs from "./GlobeArcs";
@@ -175,19 +175,6 @@ export default function Globe() {
       <directionalLight position={[-4, 2, 2]} intensity={0.4} color="#ffffff" />
       <directionalLight position={[0, 1, -5]} intensity={0.6} color="#aabbff" />
 
-      {/* Background stars — bright and close */}
-      <Stars
-        radius={20}
-        depth={40}
-        count={3000}
-        factor={4}
-        saturation={0}
-        fade
-        speed={0.5}
-      />
-
-      {/* Shooting stars */}
-      <ShootingStars />
 
       <Suspense fallback={null}>
         <RotatingGroup>
