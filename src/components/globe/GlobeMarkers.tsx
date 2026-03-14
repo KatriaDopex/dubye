@@ -23,13 +23,13 @@ function Marker({
   const pos = latLngToVector3(lat, lng, GLOBE_RADIUS * 1.005);
 
   const dotRadius =
-    size === "origin" ? 0.012 :
-    size === "large" ? 0.015 :
-    size === "small" ? 0.004 :
-    0.007;
+    size === "origin" ? 0.008 :
+    size === "large" ? 0.008 :
+    size === "small" ? 0.003 :
+    0.005;
 
-  const ringInner = size === "large" ? 0.018 : 0.011;
-  const ringOuter = size === "large" ? 0.024 : 0.015;
+  const ringInner = size === "large" ? 0.012 : 0.008;
+  const ringOuter = size === "large" ? 0.016 : 0.011;
 
   useFrame((state) => {
     if (ringRef.current) {
@@ -53,9 +53,9 @@ function Marker({
       <mesh ref={ringRef}>
         <ringGeometry args={[ringInner, ringOuter, 32]} />
         <meshBasicMaterial
-          color="#ffffff"
+          color="#4488ff"
           transparent
-          opacity={size === "large" ? 0.25 : 0.18}
+          opacity={size === "large" ? 0.3 : 0.18}
           side={THREE.DoubleSide}
         />
       </mesh>
@@ -63,11 +63,11 @@ function Marker({
       {/* Extra outer ring for Bangkok */}
       {size === "large" && (
         <mesh ref={outerRingRef}>
-          <ringGeometry args={[0.03, 0.035, 32]} />
+          <ringGeometry args={[0.02, 0.024, 32]} />
           <meshBasicMaterial
-            color="#ffffff"
+            color="#4488ff"
             transparent
-            opacity={0.08}
+            opacity={0.1}
             side={THREE.DoubleSide}
           />
         </mesh>
@@ -75,19 +75,17 @@ function Marker({
 
       {size !== "small" && (
         <Html
-          position={[0, size === "large" ? 0.045 : 0.035, 0]}
+          position={[0, size === "large" ? 0.03 : 0.02, 0]}
           center
           distanceFactor={2.5}
           style={{ pointerEvents: "none" }}
         >
           <div
-            className="whitespace-nowrap tracking-[0.12em] uppercase px-1.5 py-0.5 rounded-sm"
+            className="whitespace-nowrap tracking-[0.15em] uppercase"
             style={{
-              color: size === "large" ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.7)",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              backdropFilter: "blur(8px)",
-              fontWeight: size === "large" ? 400 : 300,
-              fontSize: size === "large" ? "11px" : "9px",
+              color: "rgba(255, 255, 255, 0.6)",
+              fontWeight: 300,
+              fontSize: size === "large" ? "9px" : "7px",
             }}
           >
             {label}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef, useState, useEffect } from "react";
+import { Suspense, useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import * as THREE from "three";
@@ -29,10 +29,91 @@ function RotatingGroup({ children }: { children: React.ReactNode }) {
   return <group ref={groupRef}>{children}</group>;
 }
 
+// Shooting stars — small streaks that fly across the background
+const SHOOTING_STAR_COUNT = 8;
+
+function ShootingStars() {
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  const stars = useMemo(() => {
+    return Array.from({ length: SHOOTING_STAR_COUNT }, () => ({
+      x: (Math.random() - 0.5) * 20,
+      y: (Math.random() - 0.5) * 12,
+      z: -(Math.random() * 30 + 5),
+      speed: Math.random() * 3 + 2,
+      angle: Math.random() * 0.4 - 0.2,
+      delay: Math.random() * 12,
+      life: 0,
+      active: false,
+    }));
+  }, []);
+
+  useFrame((state, delta) => {
+    if (!meshRef.current) return;
+    const time = state.clock.elapsedTime;
+
+    for (let i = 0; i < SHOOTING_STAR_COUNT; i++) {
+      const s = stars[i];
+
+      if (!s.active) {
+        if (time > s.delay) {
+          s.active = true;
+          s.life = 0;
+          s.x = (Math.random() - 0.5) * 16;
+          s.y = Math.random() * 6 + 2;
+          s.z = -(Math.random() * 20 + 8);
+          s.speed = Math.random() * 4 + 3;
+          s.angle = Math.random() * 0.3 - 0.15;
+        }
+      }
+
+      if (s.active) {
+        s.life += delta;
+        const t = s.life;
+        const px = s.x + t * s.speed * Math.cos(s.angle);
+        const py = s.y - t * s.speed * Math.sin(Math.PI / 6 + s.angle);
+        const pz = s.z;
+
+        // Fade in/out
+        const fade = t < 0.1 ? t / 0.1 : t > 1.5 ? Math.max(0, 1 - (t - 1.5) / 0.3) : 1;
+        const scale = fade * 0.015;
+
+        dummy.position.set(px, py, pz);
+        dummy.scale.set(scale * 8, scale, scale); // elongated streak
+        dummy.lookAt(px + Math.cos(s.angle), py - Math.sin(Math.PI / 6 + s.angle), pz);
+        dummy.updateMatrix();
+        meshRef.current.setMatrixAt(i, dummy.matrix);
+
+        if (t > 2) {
+          s.active = false;
+          s.delay = time + Math.random() * 8 + 3;
+          dummy.scale.set(0, 0, 0);
+          dummy.updateMatrix();
+          meshRef.current.setMatrixAt(i, dummy.matrix);
+        }
+      } else {
+        dummy.position.set(0, 0, -100);
+        dummy.scale.set(0, 0, 0);
+        dummy.updateMatrix();
+        meshRef.current.setMatrixAt(i, dummy.matrix);
+      }
+    }
+    meshRef.current.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh ref={meshRef} args={[undefined, undefined, SHOOTING_STAR_COUNT]}>
+      <sphereGeometry args={[1, 4, 4]} />
+      <meshBasicMaterial color="#ffffff" transparent opacity={0.6} />
+    </instancedMesh>
+  );
+}
+
 function AtmosphereGlow() {
   return (
     <mesh>
-      <sphereGeometry args={[1.2, 64, 64]} />
+      <sphereGeometry args={[1.15, 64, 64]} />
       <shaderMaterial
         transparent
         depthWrite={false}
@@ -52,7 +133,7 @@ function AtmosphereGlow() {
           void main() {
             vec3 viewDir = normalize(-vPosition);
             float rim = pow(0.65 - dot(vNormal, viewDir), 3.0);
-            gl_FragColor = vec4(0.7, 0.8, 1.0, rim * 0.15);
+            gl_FragColor = vec4(0.4, 0.6, 1.0, rim * 0.2);
           }
         `}
       />
@@ -94,15 +175,19 @@ export default function Globe() {
       <directionalLight position={[-4, 2, 2]} intensity={0.4} color="#ffffff" />
       <directionalLight position={[0, 1, -5]} intensity={0.6} color="#aabbff" />
 
+      {/* Static dim stars */}
       <Stars
-        radius={100}
-        depth={80}
-        count={1500}
-        factor={2}
+        radius={80}
+        depth={60}
+        count={2000}
+        factor={1.5}
         saturation={0}
         fade
-        speed={0.2}
+        speed={0.3}
       />
+
+      {/* Shooting stars */}
+      <ShootingStars />
 
       <Suspense fallback={null}>
         <RotatingGroup>
