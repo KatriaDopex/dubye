@@ -10,11 +10,7 @@ const PROPERTY = {
   floor: "32nd",
   beds: 2,
   size: "92.5 sqm",
-  images: [
-    { gradient: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)", label: "Living Area" },
-    { gradient: "linear-gradient(135deg, #0f3460 0%, #1a1a2e 50%, #16213e 100%)", label: "Bedroom" },
-    { gradient: "linear-gradient(135deg, #16213e 0%, #0f3460 50%, #1a1a2e 100%)", label: "View" },
-  ],
+  images: ["/tait-1.jpg", "/tait-2.jpg", "/tait-3.jpg"],
 };
 
 const BKK_LAT = 13.7563;
@@ -93,30 +89,17 @@ export default function PropertyPopup() {
         </div>
 
         {/* Image carousel */}
-        <div style={{ position: "relative", height: "100px", overflow: "hidden" }}>
-          <div
+        <div style={{ position: "relative", height: "120px", overflow: "hidden" }}>
+          <img
+            src={PROPERTY.images[currentImage]}
+            alt="The Tait"
             style={{
               width: "100%",
               height: "100%",
-              background: PROPERTY.images[currentImage].gradient,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "background 0.4s ease",
+              objectFit: "cover",
+              display: "block",
             }}
-          >
-            <span
-              style={{
-                fontSize: "9px",
-                color: "rgba(255, 255, 255, 0.2)",
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                fontWeight: 300,
-              }}
-            >
-              {PROPERTY.images[currentImage].label}
-            </span>
-          </div>
+          />
 
           <button
             onClick={prevImage}

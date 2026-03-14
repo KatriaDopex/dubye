@@ -37,7 +37,7 @@ function AnimatedNumber({
   }, [spring, decimals]);
 
   return (
-    <span ref={ref} className="text-2xl sm:text-3xl md:text-4xl font-light text-[#1d1d1f] tabular-nums">
+    <span ref={ref} className="text-2xl sm:text-3xl md:text-4xl font-light text-white/90 tabular-nums">
       {prefix}{display}{suffix}
     </span>
   );
@@ -45,7 +45,7 @@ function AnimatedNumber({
 
 export default function StatsBar() {
   return (
-    <section className="border-y border-black/[0.06]">
+    <section className="border-y border-white/[0.06]">
       <div className="max-w-6xl mx-auto px-6 py-12 sm:py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
           {STATS.map((stat) => (
@@ -63,7 +63,7 @@ export default function StatsBar() {
                 suffix={stat.suffix}
                 decimals={stat.value % 1 !== 0 ? 1 : 0}
               />
-              <p className="mt-2 text-black/40 text-[10px] sm:text-xs uppercase tracking-[0.15em] font-light">
+              <p className="mt-2 text-white/30 text-[10px] sm:text-xs uppercase tracking-[0.15em] font-light">
                 {stat.label}
               </p>
             </motion.div>
