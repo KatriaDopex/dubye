@@ -8,6 +8,7 @@ import GlobeMesh from "./GlobeMesh";
 import GlobeArcs from "./GlobeArcs";
 import GlobeMarkers from "./GlobeMarkers";
 import GlobeParticles from "./GlobeParticles";
+import PropertyPopup from "./PropertyPopup";
 
 // Dubai at lng 55.27°. Camera at +Z sees lng≈-90° by default on Three.js sphere.
 // To center Dubai: rotate by -(55.27 + 90)° around Y
@@ -114,6 +115,7 @@ export default function Globe() {
           <GlobeArcs />
           <GlobeMarkers />
           <GlobeParticles />
+          <PropertyPopup />
         </RotatingGroup>
         <AtmosphereGlow />
       </Suspense>
